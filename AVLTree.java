@@ -11,6 +11,9 @@ public class AVLTree {
         AVLTree tree = new AVLTree();
         Node n = new Node(50);
         tree.setRoot(n);
+        Node x = new Node(40);
+        tree.insert(x);
+        
         System.out.println(tree.search(30));
     }
 
