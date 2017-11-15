@@ -8,5 +8,6 @@ public interface MyHeap {
 	public boolean delete(HeapNode del);
 	public boolean union(MyHeap heap);
 	public Comparable findMin();
+	public HeapNode getLast();
 
 }
