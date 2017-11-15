@@ -76,20 +76,20 @@ public class AVLTree {
         } else {
             return node;
         }
-        int updatedHeight = Math.max(getHeight(node.getLeft()), getHeight(node.getRight())) + 1;
+        int updatedHeight = 1 + Math.max(getHeight(node.getLeft()), getHeight(node.getRight()));
         node.setHeight(updatedHeight);
         int difference = getBalanceFactor(node);
 
-        if (difference > 1 && node.getData().compareTo(node.getLeft().getData()) < 0) {
+        if (difference > 1 && value.compareTo(node.getLeft().getData()) < 0) {
             return rightRotate(node);
-        } else if (difference < -1 && node.getData().compareTo(node.getRight().getData()) > 0) {
-            leftRotate(node);
-
-        } else if (difference > 1 && node.getData().compareTo(node.getLeft().getData()) > 0) {
+        } else if (difference < -1 && value.compareTo(node.getRight().getData()) > 0) {
+            return leftRotate(node);
+        } else if (difference > 1 && value.compareTo(node.getLeft().getData()) > 0) {
             node.setLeft(leftRotate(node.getLeft()));
             return rightRotate(node);
-        } else if (difference < -1 && node.getData().compareTo(node.getRight()) < 0) {
+        } else if (difference < -1 && value.compareTo(node.getRight().getData()) < 0) {
             node.setRight(rightRotate(node.getRight()));
+            return leftRotate(node);
         }
 
         return node;
@@ -161,7 +161,7 @@ public class AVLTree {
         }
         System.out.println("---------------------------");
     }
-    
+
     // in order
     public List convertToList() {
         Node currentNode = root;
@@ -200,9 +200,42 @@ public class AVLTree {
     }
 
     public void inorder() {
-
+        List flattened = convertToList();
+        for (int i = 0; i < flattened.size(); i ++) {
+            System.out.print(i + " " );
+        }
     }
 
+    public void print() {
+        boolean first = true;
+        int count = 0;
+        Queue<Node> currentLevel = new LinkedList<Node>();
+        Queue<Node> nextLevel = new LinkedList<Node>();
+        currentLevel.add(root);
+        while (currentLevel.size() > 0) {
+            Node currNode = currentLevel.remove();
+            if (currNode != null) {
+                if (first) {
+                    first = false;
+                    System.out.println(count + ": ");
+                    count++;
+                }
+                System.out.println(currNode.getData() + " ");
+
+                if (currentLevel.size() > 0) {
+                    System.out.println(" ");
+                    nextLevel.add(currNode.getLeft());
+                    nextLevel.add(currNode.getRight());
+                }
+            }
+            if (currentLevel.size() == 0) {
+                System.out.println();
+                first = true;
+                currentLevel = nextLevel;
+
+            }
+        }
+    }
     public void count() {
 
     }
