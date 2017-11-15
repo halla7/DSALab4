@@ -95,6 +95,71 @@ public class AVLTree {
         return node;
     }
 
+    public Node delete(Node node, Comparable value) {
+        Node temp;
+        if (node == null ) {
+            return node;
+        }
+
+        if (value.compareTo(node.getData()) < 0) {
+            temp = delete(node.getLeft(), value);
+            node.setLeft(temp);
+        } else if (value.compareTo(node.getData()) > 0) {
+            temp = delete(node.getRight(), value);
+            node.setRight(temp);
+        } else if (node.getLeft() != null && node.getRight() != null) {
+            temp = getMin(node.getRight());
+            node.setData(temp.getData());
+            temp = delete(node.getRight(), node.getData());
+            node.setRight(temp);
+        } else {
+            if (node.getLeft() != null) {
+                node = node.getLeft();
+            } else {
+                node = node.getRight();
+            }
+        }
+        return node;
+//        Node temp;
+//        if (root == null) {
+//            return root;
+//        }
+//
+//        if (value.compareTo(root.getData()) < 0) {
+//            temp = delete(root.getLeft(), value);
+//            root.setLeft(temp);
+//        } else if (value.compareTo(root.getData()) > 0){
+//            temp = delete(root.getRight(), value);
+//            root.setRight(temp);
+//        } else {
+//            if (root.getLeft() == null || root.getRight() == null) {
+//
+//
+//            }
+//            Node temp2 = getMin(root.getRight());
+//            root.setData(temp2.getData());
+//            temp = delete(root.getRight(), temp2.getData());
+//            root.setRight(temp);
+//        }
+//
+//        if
+//
+//        return root;
+    }
+
+    public Node getMin(Node node) {
+        Node currentNode = node;
+        if (node == null) {
+            return node;
+        }
+
+        while (currentNode.getRight() != null) {
+            currentNode = currentNode.getLeft();
+        }
+        return currentNode;
+    }
+
+
     public Node leftRotate(Node xNode) {
         Node yNode = xNode.getRight();
         Node t2 = yNode.getLeft();
@@ -205,6 +270,17 @@ public class AVLTree {
             System.out.print(i + " " );
         }
     }
+    public List inorder(Node node) {
+        List<Comparable> inorderList = new LinkedList<Comparable>();
+        if (node != null) {
+            inorder(node.getLeft());
+            inorderList.add(node.getData());
+            System.out.println(node.getData());
+            inorder(node.getRight());
+        }
+
+        return inorderList;
+    }
 
     public void print() {
         boolean first = true;
@@ -236,8 +312,19 @@ public class AVLTree {
             }
         }
     }
-    public void count() {
+    public Comparable count(Node node, Comparable value1, Comparable value2) {
+        int sum = 0;
+        if (node == null) {
+            return 0;
+        } else if (root.getData().compareTo(value1) >= 0 && root.getData().compareTo(value2) <= 0) {    // if in range
+            sum = sum + 1;
+        } else if (root.getData().compareTo(value1) > 0) {
+            count(root.getLeft(), value1, value2);
+        } else if (root.getData().compareTo(value2) < 0) {
+            count(root.getRight(), value1, value2);
+        }
 
+        return sum;
     }
 
 
